@@ -60,22 +60,34 @@ export default function RegisterScreen() {
                 passwordConfirm: form.passwordConfirm,
             })
 
-            // 2. Créer le profil + candidature
-            await pb.collection('profiles').create({
-                user: user.id,
-                nom: form.nom,
-                prenom: form.prenom,
-                telephone: form.telephone,
-                ville: form.ville,
-                message_candidature: form.message_candidature,
-                statut: 'en_attente',
-            })
+            console.log('✅ User créé:', user.id)
 
-            Alert.alert(
-                'Candidature envoyée ! 🌿',
-                'Votre demande a bien été enregistrée. Un administrateur va examiner votre candidature et vous recevrez une réponse prochainement.',
-                [{ text: 'OK', onPress: () => router.replace('/(auth)/login') }]
-            )
+            try {
+                // 2. Créer le profil + candidature
+                const profile = await pb.collection('profiles').create({
+                    user: user.id,
+                    nom: form.nom,
+                    prenom: form.prenom,
+                    telephone: form.telephone,
+                    ville: form.ville,
+                    message_candidature: form.message_candidature,
+                    statut: 'en_attente',
+                })
+
+                console.log('✅ Profil créé:', profile.id)
+
+                Alert.alert(
+                    'Candidature envoyée ! 🌿',
+                    'Votre demande a bien été enregistrée. Un administrateur va examiner votre candidature et vous recevrez une réponse prochainement.',
+                    [{ text: 'OK', onPress: () => router.replace('/(auth)/login') }]
+                )
+            }catch (profileError: any) {
+                console.log('❌ Erreur profil:', JSON.stringify(profileError?.data))
+                // Supprimer le user si le profil échoue
+                await pb.collection('users').delete(user.id)
+                throw profileError
+            }
+
 
         } catch (error: any) {
             if (error?.data?.email) {
@@ -83,6 +95,10 @@ export default function RegisterScreen() {
             } else {
                 Alert.alert('Erreur', 'Une erreur est survenue, veuillez réessayer')
             }
+            console.log('❌ Erreur profil:', JSON.stringify(profileError?.data))
+            // Supprimer le user si le profil échoue
+            await pb.collection('users').delete(user.id)
+            throw profileError
         } finally {
             setLoading(false)
         }
