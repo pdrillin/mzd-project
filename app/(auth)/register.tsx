@@ -227,6 +227,8 @@ export default function RegisterScreen() {
                             multiline
                             numberOfLines={5}
                             textAlignVertical="top"
+                            returnKeyType="done"
+                            onSubmitEditing={handleRegister}
                         />
                     </View>
                 </View>

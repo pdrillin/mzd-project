@@ -18,11 +18,11 @@ export type Profile = {
 
 export type WasteEntry = {
     id: string
-    profile: string
-    poids_kg: number
+    user: string
+    poids: number
     categorie: 'organique' | 'recyclable' | 'emballage' | 'residuel'
     note: string
-    date: string
+    created: string
 }
 
 export type Event = {

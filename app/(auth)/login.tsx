@@ -105,6 +105,8 @@ export default function LoginScreen() {
                             onChangeText={setPassword}
                             secureTextEntry
                             autoComplete="password"
+                            returnKeyType="done"
+                            onSubmitEditing={handleLogin}
                         />
                     </View>
 
