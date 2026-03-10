@@ -56,7 +56,7 @@ export default function LoginScreen() {
             }
 
             // Statut accepté → accès à l'app
-            router.replace('/(tabs)/')
+            router.replace('/(tabs)')
 
         } catch (error: any) {
             Alert.alert('Erreur', 'Email ou mot de passe incorrect')

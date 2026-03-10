@@ -13,7 +13,7 @@ export default function RootLayout() {
         if (!user) {
             router.replace('/(auth)/login')
         } else if (user && segments[0] === '(auth)') {
-            router.replace('/(tabs)/')
+            router.replace('/(tabs)')
         }
 
         setIsReady(true)

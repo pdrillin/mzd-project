@@ -95,10 +95,6 @@ export default function RegisterScreen() {
             } else {
                 Alert.alert('Erreur', 'Une erreur est survenue, veuillez réessayer')
             }
-            console.log('❌ Erreur profil:', JSON.stringify(profileError?.data))
-            // Supprimer le user si le profil échoue
-            await pb.collection('users').delete(user.id)
-            throw profileError
         } finally {
             setLoading(false)
         }
